@@ -1,18 +1,32 @@
+import time
+
 import requests
 from bs4 import BeautifulSoup
 import lxml
 
-url = 'https://scrapingclub.com/exercise/list_basic/?page=1'
+for count in range(1,8):
 
-responce = requests.get(url)
+    time.sleep(0.15)
 
-soup = BeautifulSoup(responce.text, "lxml")
+    url = f'https://scrapingclub.com/exercise/list_basic/?page={count}'
 
-data = soup.find('div', class_ = 'col-lg-4 col-md-6 mb-4')
+    responce = requests.get(url)
 
-name = data.find('h4', class_ = 'card-title').text.replace('\n', '')
+    soup = BeautifulSoup(responce.text, "lxml")
 
-price = 
+    data = soup.find_all('div', class_ = 'col-lg-4 col-md-6 mb-4')
+
+    for card in data:
+
+        name = card.find('h4', class_ ='card-title').text.replace('\n', '')
+
+        price = card.find('h5').text
+
+        url_img = 'https://scrapingclub.com' + card.find('img', class_ = 'card-img-top img-fluid').get('src')
+
+        print(name + "\n" + price + '\n' + url_img)
+
+        time.sleep(.3)
 
 
 
